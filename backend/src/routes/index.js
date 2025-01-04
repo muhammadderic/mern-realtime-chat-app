@@ -1,10 +1,10 @@
 import express from "express";
 const router = express.Router();
 
-import initialRoutes from "./initialRoutes.js";
+import authRoutes from "./authRoutes.js";
 
 // API Routes
-router.use('/', initialRoutes);
+router.use("/auth", authRoutes);
 
 // 404 Handling
 router.use((req, res) => {
