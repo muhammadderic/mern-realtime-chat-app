@@ -45,3 +45,39 @@ export const sendMessage = async (req, res) => {
     });
   }
 }
+
+export const getMessages = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user._id;
+
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate("messages");
+    if (!conversation) {
+      return responseHandler(res, {
+        status: 200,
+        success: true,
+        message: "No conversation found",
+        data: []
+      });
+    }
+
+    const messages = conversation.messages;
+
+    return responseHandler(res, {
+      status: 200,
+      success: true,
+      message: "New Message created",
+      data: messages
+    });
+  } catch (error) {
+    console.error("Error in getMessages controller: ", error.message);
+    return responseHandler(res, {
+      status: 500,
+      success: false,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+};
