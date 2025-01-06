@@ -3,9 +3,11 @@ import useGetMessages from "../../hooks/useGetMessages";
 import type { Message } from "../../store/conversationStore";
 import MessageSection from "./MessageSection";
 import MessageSkeleton from "./MessageSkeleton";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
   const { messages, loading } = useGetMessages();
+  useListenMessages();
   const lastMessageRef = useRef<HTMLDivElement>(null);
 
   return (
