@@ -1,5 +1,6 @@
 import useConversationStore from "../../store/conversationStore";
 import type { User } from "../../types/types";
+import { useSocketContext } from "../../context/SocketContext";
 
 type ConversationProps = {
   user: User,
@@ -11,6 +12,8 @@ const UserConversation = ({ user, lastIdx, emoji }: ConversationProps) => {
   const { selectedUser, setSelectedUser } = useConversationStore();
 
   const isSelected = selectedUser?._id === user._id;
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(user);
 
   return (
     <>
@@ -20,7 +23,7 @@ const UserConversation = ({ user, lastIdx, emoji }: ConversationProps) => {
 			`}
         onClick={() => setSelectedUser(user)}
       >
-        <div className={`avatar`}>
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className='w-12 rounded-full'>
             <img src={user.profilePic} alt='user avatar' />
           </div>
