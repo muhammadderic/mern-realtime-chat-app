@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import { useAuthContext } from "./context/AuthContext";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -9,6 +10,10 @@ function App() {
   return (
     <div className='p-4 h-screen flex items-center justify-center'>
       <Routes>
+        <Route
+          path='/'
+          element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+        />
         <Route
           path='/signup'
           element={authUser ? <Navigate to='/' /> : <SignupPage />}
